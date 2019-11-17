@@ -27,7 +27,10 @@ function readFiles (path) {
 
   return result;
 }
-
+/**
+ * Read the file in path parameter and return a Json object
+ * @param {String} path the path file
+ */
 async function processaArquivo (path) {
   const f = fs.createReadStream(path);
   const rl = readLine.createInterface(f, { crlfDelay: Infinity });
@@ -36,7 +39,6 @@ async function processaArquivo (path) {
   const lineSizeList = [];
 
   for await (const line of rl) {
-    // console.log(`Line from file: ${line}`);
     lineSizeList.push(line.length);
     lineCount++;
   }
