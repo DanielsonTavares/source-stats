@@ -19,7 +19,9 @@ function readFiles (path) {
   let lista = [];
   const result = [];
 
-  lista = fs.readdirSync(path);
+  lista = fs.readdirSync(path).filter(f => {
+    return fs.statSync(path + f).isFile();
+  });
 
   lista.forEach(e => {
     result.push(path + e);
@@ -51,4 +53,12 @@ async function processaArquivo (path) {
   return { path, lineCount, avgSizeLine };
 }
 
-module.exports = { readFiles, processaArquivo };
+function insereLinha (string, clearFile = false) {
+  if (clearFile) {
+    fs.unlinkSync('stats.log');
+  }
+
+  fs.appendFileSync('stats.log', string);
+}
+
+module.exports = { readFiles, processaArquivo, insereLinha };
